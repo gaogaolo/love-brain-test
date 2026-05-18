@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>恋爱脑测试 💘</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pink: #ff6b9d;
+    --pink-light: #ffd6e8;
+    --pink-dark: #e0457a;
+    --purple: #c77dff;
+    --purple-light: #e8d5ff;
+    --bg: #fff5f9;
+    --text: #3d1f2f;
+    --text-light: #8c6478;
+    --card: #ffffff;
+    --shadow: 0 8px 32px rgba(255, 107, 157, 0.15);
+  }
+
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(255,107,157,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(199,125,255,0.08) 0%, transparent 50%);
+  }
+
+  .container {
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+  }
+
+  /* ===== 封面页 ===== */
+  #cover {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 50px 36px 44px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    animation: fadeInUp 0.6s ease;
+  }
+
+  .cover-emoji {
+    font-size: 80px;
+    display: block;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  .cover-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--pink);
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+
+  .cover-sub {
+    font-size: 15px;
+    color: var(--text-light);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .cover-tags {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+
+  .tag {
+    background: var(--pink-light);
+    color: var(--pink-dark);
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  .start-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+    box-shadow: 0 6px 20px rgba(255,107,157,0.4);
+  }
+
+  .start-btn:active { transform: scale(0.97); }
+
+  .cover-note {
+    margin-top: 16px;
+    font-size: 12px;
+    color: #bba0b0;
+  }
+
+  /* ===== 题目页 ===== */
+  #quiz { display: none; }
+
+  .quiz-header {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .q-counter {
+    font-size: 13px;
+    color: var(--text-light);
+    font-weight: 600;
+  }
+
+  .q-counter strong { color: var(--pink); font-size: 16px; font-weight: 800; }
+
+  .progress-bar-bg {
+    height: 8px;
+    background: var(--pink-light);
+    border-radius: 99px;
+    flex: 1;
+    margin: 0 14px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--pink), var(--purple));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .question-card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 32px 28px 28px;
+    box-shadow: var(--shadow);
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .q-num-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 99px;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+
+  .q-emoji {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  .q-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 28px;
+    flex: 1;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option-btn {
+    width: 100%;
+    padding: 15px 18px;
+    background: #fef0f6;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.5;
+  }
+
+  .option-btn:hover {
+    border-color: var(--pink);
+    transform: translateX(4px);
+  }
+
+  .option-btn.selected {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    border-color: transparent;
+    transform: translateX(4px);
+  }
+
+  .option-inner { display: flex; align-items: flex-start; gap: 10px; }
+
+  .option-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    background: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--pink);
+  }
+
+  .option-btn.selected .option-label {
+    background: rgba(255,255,255,0.3);
+    color: white;
+  }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    gap: 12px;
+  }
+
+  .prev-btn {
+    padding: 12px 24px;
+    background: white;
+    border: 2px solid var(--pink-light);
+    border-radius: 12px;
+    font-size: 14px;
+    color: var(--text-light);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .prev-btn:hover { border-color: var(--pink); color: var(--pink); }
+
+  .next-btn {
+    flex: 1;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(255,107,157,0.35);
+    letter-spacing: 1px;
+  }
+
+  .next-btn:disabled {
+    background: #e8dde4;
+    box-shadow: none;
+    color: #bba0b0;
+    cursor: not-allowed;
+  }
+
+  .next-btn:not(:disabled):active { transform: scale(0.97); }
+
+  /* ===== 结果页 ===== */
+  #result { display: none; }
+
+  .result-card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 44px 32px 40px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    animation: fadeInUp 0.6s ease;
+  }
+
+  .result-emoji {
+    font-size: 72px;
+    display: block;
+    margin-bottom: 16px;
+    animation: bounceIn 0.7s ease;
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); }
+    70% { transform: scale(0.95); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .result-level {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pink);
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+
+  .result-title {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  .result-subtitle {
+    font-size: 15px;
+    color: var(--pink);
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+
+  .result-bar-area { margin-bottom: 24px; }
+
+  .result-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .result-bar-bg {
+    height: 12px;
+    background: var(--pink-light);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .result-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--pink), var(--purple));
+    border-radius: 99px;
+    transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    width: 0%;
+  }
+
+  .result-desc {
+    background: linear-gradient(135deg, #fff5f9, #f8f0ff);
+    border-radius: 16px;
+    padding: 20px;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.8;
+    text-align: left;
+    margin-bottom: 20px;
+    border: 1px solid var(--pink-light);
+  }
+
+  .result-traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  .trait-tag {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .trait-pos { background: var(--pink-light); color: var(--pink-dark); }
+  .trait-neg { background: var(--purple-light); color: #7b4fa8; }
+
+  .result-divider {
+    height: 1px;
+    background: var(--pink-light);
+    margin: 24px 0;
+  }
+
+  .result-advice-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 12px;
+    text-align: left;
+  }
+
+  .result-advice {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.8;
+    text-align: left;
+  }
+
+  .restart-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+    box-shadow: 0 6px 20px rgba(255,107,157,0.4);
+    margin-top: 24px;
+  }
+
+  .restart-btn:active { transform: scale(0.97); }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .confetti-wrap {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 999;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    top: -20px;
+    border-radius: 2px;
+    animation: confettiFall linear forwards;
+  }
+
+  @keyframes confettiFall {
+    to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 封面 -->
+  <div id="cover">
+    <span class="cover-emoji">💘</span>
+    <div class="cover-title">恋爱脑测试</div>
+    <div class="cover-sub">你到底有多恋爱脑？<br>10道题，测出你的恋爱人格</div>
+    <div class="cover-tags">
+      <span class="tag">💬 10道题</span>
+      <span class="tag">⏱ 约2分钟</span>
+      <span class="tag">🔬 5种结果</span>
+    </div>
+    <button class="start-btn" id="start-btn">开始测试 →</button>
+    <div class="cover-note">测试结果仅供娱乐，请勿对号入座 🌸</div>
+  </div>
+
+  <!-- 题目区 -->
+  <div id="quiz">
+    <div class="quiz-header">
+      <span class="q-counter"><strong id="cur-num">1</strong>/10</span>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+      <span style="font-size:18px">💌</span>
+    </div>
+    <div class="question-card" id="question-card"></div>
+    <div class="nav-row">
+      <button class="prev-btn" id="prev-btn">← 上一题</button>
+      <button class="next-btn" id="next-btn" disabled>下一题 →</button>
+    </div>
+  </div>
+
+  <!-- 结果页 -->
+  <div id="result">
+    <div class="result-card" id="result-card"></div>
+  </div>
+</div>
+
+<div class="confetti-wrap" id="confetti-wrap"></div>
+
+<script>
+var questions = [
+  {
+    emoji: "😳",
+    text: "刚认识一个心动的人，你第一反应是什么？",
+    options: [
+      { text: "淡定，继续做自己的事，缘分到了自然会近", score: 0 },
+      { text: "会稍微关注一下，但不会主动", score: 1 },
+      { text: "忍不住去翻他的朋友圈和微博", score: 2 },
+      { text: "已经开始幻想我们在一起的样子了", score: 3 }
+    ]
+  },
+  {
+    emoji: "📱",
+    text: "发出去的消息对方迟迟没回，你通常会……",
+    options: [
+      { text: "没感觉，可能他忙，等着就行", score: 0 },
+      { text: "看了看，心里有一点点在意", score: 1 },
+      { text: "反复看有没有已读，开始猜测原因", score: 2 },
+      { text: "焦虑到发第二条，或者一直刷新对话框", score: 3 }
+    ]
+  },
+  {
+    emoji: "👫",
+    text: "好朋友约你吃饭，但这时候你喜欢的人突然说想见你，你会……",
+    options: [
+      { text: "爱人没约好，朋友的约不能爽", score: 0 },
+      { text: "跟朋友商量能不能改时间", score: 1 },
+      { text: "找个借口跟朋友说临时有事，去见喜欢的人", score: 2 },
+      { text: "直接赴约，朋友应该能理解的", score: 3 }
+    ]
+  },
+  {
+    emoji: "💭",
+    text: "你对爱情在生活中的地位是……",
+    options: [
+      { text: "锦上添花，有更好，没有也行", score: 0 },
+      { text: "重要，但没有工作/学业/朋友重要", score: 1 },
+      { text: "跟其他事情同等重要", score: 2 },
+      { text: "是生活的核心和动力，失去爱情感觉生活没意义", score: 3 }
+    ]
+  },
+  {
+    emoji: "😤",
+    text: "朋友直接告诉你他不适合你，别喜欢他了。你的反应是……",
+    options: [
+      { text: "认真听完，理性分析朋友说的对不对", score: 0 },
+      { text: "有点不舒服，但会思考朋友的话", score: 1 },
+      { text: "内心反驳，嘴上说我知道了", score: 2 },
+      { text: "直接翻脸：你不了解他，别说我们的事", score: 3 }
+    ]
+  },
+  {
+    emoji: "🌙",
+    text: "理想中的周末，你更倾向于……",
+    options: [
+      { text: "自己安排，读书、出门、做喜欢的事", score: 0 },
+      { text: "跟闺蜜/朋友出去玩", score: 1 },
+      { text: "跟对象约会，但也会留点时间给自己", score: 2 },
+      { text: "最好24小时都跟对象腻在一起", score: 3 }
+    ]
+  },
+  {
+    emoji: "🪞",
+    text: "你会因为喜欢一个人而改变自己吗？",
+    options: [
+      { text: "不会，我是我，他是他", score: 0 },
+      { text: "会做一些无关紧要的小改变", score: 1 },
+      { text: "会为他改变一些习惯或爱好", score: 2 },
+      { text: "愿意为他彻底改变，什么都行", score: 3 }
+    ]
+  },
+  {
+    emoji: "💔",
+    text: "上一段感情结束之后，你……",
+    options: [
+      { text: "难过了一段时间，很快调整好投入新生活", score: 0 },
+      { text: "需要一两个月缓一缓，然后复原", score: 1 },
+      { text: "很长一段时间都走不出来，状态很差", score: 2 },
+      { text: "觉得整个世界都崩了，完全无法正常生活", score: 3 }
+    ]
+  },
+  {
+    emoji: "🌹",
+    text: "对方突然冷淡、减少联系，你会怎么做？",
+    options: [
+      { text: "观察几天，如果真冷了就放手", score: 0 },
+      { text: "主动问一句你还好吗，等他回应", score: 1 },
+      { text: "不断找话题、制造机会，试图挽回", score: 2 },
+      { text: "连续发消息、打电话，甚至去找他", score: 3 }
+    ]
+  },
+  {
+    emoji: "📸",
+    text: "你的朋友圈和社交媒体……",
+    options: [
+      { text: "基本上跟感情没什么关系，发自己的生活", score: 0 },
+      { text: "偶尔会发跟对象有关的内容", score: 1 },
+      { text: "经常晒恩爱，秀一秀很正常", score: 2 },
+      { text: "几乎全是跟他有关的，生活=他", score: 3 }
+    ]
+  }
+];
+
+var results = [
+  {
+    emoji: "🧊",
+    level: "冷静理性型",
+    title: "钢铁直男 / 女",
+    subtitle: "恋爱脑指数：0%",
+    percent: 5,
+    desc: "你的情感世界井井有条，感情对你来说是生活的一部分，而不是全部。你不会因为一段感情而打乱自己的节奏，独立而清醒，令人羡慕。",
+    traits: ["独立", "理性", "自我", "清醒", "有时过于冷漠", "不善表达"],
+    advice: "你很独立，但也要注意适当打开心扉。感情需要一点点柔软，偶尔展示脆弱并不代表失去自我哦 🌿"
+  },
+  {
+    emoji: "🌿",
+    level: "小有感性型",
+    title: "清醒的浪漫主义者",
+    subtitle: "恋爱脑指数：25%",
+    percent: 28,
+    desc: "你对感情有期待，但不会迷失其中。你懂得在爱情和生活之间保持平衡，是那种会认真爱、也会好好生活的人。",
+    traits: ["平衡感强", "有边界感", "温柔", "理性", "偶尔纠结", "感情细腻"],
+    advice: "你已经做得很好啦！保持这种平衡感，既能投入感情，也能守护自己的生活和圈子。这是很难得的成熟 💚"
+  },
+  {
+    emoji: "🌸",
+    level: "中度恋爱脑",
+    title: "甜蜜的小麻烦精",
+    subtitle: "恋爱脑指数：55%",
+    percent: 58,
+    desc: "你对感情投入充分，容易心动，也容易在意对方的一举一动。你的爱很真实，但有时候会因为对方的情绪而影响到自己的状态。",
+    traits: ["感情丰富", "会撒娇", "重视对方", "粘人", "容易吃醋", "情绪化"],
+    advice: "恋爱脑不是坏事，热烈地爱很美好。但记得时不时回来照顾一下自己——你的朋友圈、你的爱好、你的梦想，都不要丢掉 🌸"
+  },
+  {
+    emoji: "💗",
+    level: "重度恋爱脑",
+    title: "爱情至上主义者",
+    subtitle: "恋爱脑指数：78%",
+    percent: 80,
+    desc: "爱情是你生命中最重要的事之一。你愿意为喜欢的人付出很多，对方的情绪会直接影响你的状态。你的爱很深，但有时候也会把自己弄丢。",
+    traits: ["深情", "全力投入", "敏感", "容易依赖", "会忽视自我", "容易受伤"],
+    advice: "你爱得真实又深沉，这是礼物也是负担。试着把10%的注意力放回自己身上——你的人生不该只有一个主角，记得，你也是你自己的主角 💪"
+  },
+  {
+    emoji: "🔥",
+    level: "恋爱脑晚期",
+    title: "恋爱脑 · 终极形态",
+    subtitle: "恋爱脑指数：100%",
+    percent: 98,
+    desc: "恭喜你！你是教科书级别的恋爱脑。爱情对你而言不只是生活的一部分，简直就是氧气。你爱得彻底、纯粹、不计后果，但有时候也容易因此失去自我。",
+    traits: ["全身心投入", "极度浪漫", "情绪化", "容易失去自我", "忽视朋友", "黏人"],
+    advice: "你的爱热烈得像一场烟火，很美，但也要小心灼伤自己。请记住：一段健康的感情需要两个完整的人，好好爱自己，才能好好爱别人 🔥"
+  }
+];
+
+var currentQ = 0;
+var answers = [];
+for (var i = 0; i < questions.length; i++) { answers.push(null); }
+
+function startQuiz() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion(0, 'right');
+}
+
+function renderQuestion(index, dir) {
+  var card = document.getElementById('question-card');
+  var q = questions[index];
+  var labels = ['A', 'B', 'C', 'D'];
+
+  var optionsHtml = '';
+  for (var i = 0; i < q.options.length; i++) {
+    var sel = answers[index] === i ? ' selected' : '';
+    optionsHtml += '<button class="option-btn' + sel + '" data-idx="' + i + '">' +
+      '<div class="option-inner">' +
+      '<span class="option-label">' + labels[i] + '</span>' +
+      '<span>' + q.options[i].text + '</span>' +
+      '</div></button>';
+  }
+
+  card.innerHTML =
+    '<div class="q-num-badge">Q ' + (index + 1) + ' / ' + questions.length + '</div>' +
+    '<div class="q-emoji">' + q.emoji + '</div>' +
+    '<div class="q-text">' + q.text + '</div>' +
+    '<div class="options" id="options">' + optionsHtml + '</div>';
+
+  card.style.animation = 'none';
+  card.offsetHeight; // reflow
+  card.style.animation = (dir === 'right') ? 'slideInRight 0.35s ease' : 'slideInLeft 0.35s ease';
+
+  document.getElementById('cur-num').textContent = index + 1;
+  document.getElementById('progress-fill').style.width = (index / questions.length * 100) + '%';
+  document.getElementById('prev-btn').style.visibility = index === 0 ? 'hidden' : 'visible';
+
+  var nextBtn = document.getElementById('next-btn');
+  nextBtn.textContent = index === questions.length - 1 ? '查看结果 ✨' : '下一题 →';
+  nextBtn.disabled = answers[index] === null;
+
+  // 用事件委托处理选项点击
+  document.getElementById('options').addEventListener('click', function(e) {
+    var btn = e.target.closest('.option-btn');
+    if (!btn) return;
+    var idx = parseInt(btn.getAttribute('data-idx'), 10);
+    answers[currentQ] = idx;
+    var btns = document.querySelectorAll('.option-btn');
+    for (var j = 0; j < btns.length; j++) {
+      btns[j].classList.toggle('selected', j === idx);
+    }
+    document.getElementById('next-btn').disabled = false;
+  });
+}
+
+function nextQ() {
+  if (answers[currentQ] === null) return;
+  if (currentQ < questions.length - 1) {
+    currentQ++;
+    renderQuestion(currentQ, 'right');
+  } else {
+    showResult();
+  }
+}
+
+function prevQ() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuestion(currentQ, 'left');
+  }
+}
+
+function showResult() {
+  document.getElementById('progress-fill').style.width = '100%';
+
+  var totalScore = 0;
+  for (var i = 0; i < answers.length; i++) {
+    if (answers[i] !== null) {
+      totalScore += questions[i].options[answers[i]].score;
+    }
+  }
+
+  var maxScore = questions.length * 3;
+  var pct = totalScore / maxScore;
+
+  var resultIdx;
+  if (pct < 0.12) resultIdx = 0;
+  else if (pct < 0.35) resultIdx = 1;
+  else if (pct < 0.58) resultIdx = 2;
+  else if (pct < 0.78) resultIdx = 3;
+  else resultIdx = 4;
+
+  var r = results[resultIdx];
+
+  setTimeout(function() {
+    document.getElementById('quiz').style.display = 'none';
+    document.getElementById('result').style.display = 'block';
+
+    var posTraits = r.traits.slice(0, 3).map(function(t) {
+      return '<span class="trait-tag trait-pos">' + t + '</span>';
+    }).join('');
+    var negTraits = r.traits.slice(3).map(function(t) {
+      return '<span class="trait-tag trait-neg">' + t + '</span>';
+    }).join('');
+
+    document.getElementById('result-card').innerHTML =
+      '<span class="result-emoji">' + r.emoji + '</span>' +
+      '<div class="result-level">' + r.level + '</div>' +
+      '<div class="result-title">' + r.title + '</div>' +
+      '<div class="result-subtitle">' + r.subtitle + '</div>' +
+      '<div class="result-bar-area">' +
+        '<div class="result-bar-label"><span>🧊 理智清醒</span><span>🔥 恋爱脑</span></div>' +
+        '<div class="result-bar-bg"><div class="result-bar-fill" id="res-bar"></div></div>' +
+      '</div>' +
+      '<div class="result-desc">' + r.desc + '</div>' +
+      '<div class="result-traits">' + posTraits + negTraits + '</div>' +
+      '<div class="result-divider"></div>' +
+      '<div class="result-advice-title">💡 给你的小建议</div>' +
+      '<div class="result-advice">' + r.advice + '</div>' +
+      '<button class="restart-btn" id="restart-btn">再测一次 🔄</button>';
+
+    setTimeout(function() {
+      var bar = document.getElementById('res-bar');
+      if (bar) bar.style.width = r.percent + '%';
+    }, 100);
+
+    document.getElementById('restart-btn').addEventListener('click', restart);
+
+    if (resultIdx >= 3) throwConfetti();
+  }, 300);
+}
+
+function restart() {
+  currentQ = 0;
+  answers = [];
+  for (var i = 0; i < questions.length; i++) { answers.push(null); }
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('cover').style.display = 'block';
+}
+
+function throwConfetti() {
+  var wrap = document.getElementById('confetti-wrap');
+  wrap.innerHTML = '';
+  var colors = ['#ff6b9d','#c77dff','#ffd700','#ff9ff3','#54a0ff','#ff6348'];
+  for (var i = 0; i < 60; i++) {
+    var el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = (Math.random() * 100) + '%';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.width = (6 + Math.random() * 8) + 'px';
+    el.style.height = (6 + Math.random() * 8) + 'px';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    el.style.animationDelay = (Math.random() * 0.8) + 's';
+    el.style.opacity = (0.7 + Math.random() * 0.3).toString();
+    wrap.appendChild(el);
+  }
+  setTimeout(function() { wrap.innerHTML = ''; }, 4000);
+}
+
+// DOM 加载完毕后绑定所有事件
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('start-btn').addEventListener('click', startQuiz);
+  document.getElementById('next-btn').addEventListener('click', nextQ);
+  document.getElementById('prev-btn').addEventListener('click', prevQ);
+});
+</script>
+</body>
+</html>
