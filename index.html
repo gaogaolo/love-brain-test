@@ -3,494 +3,207 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>恋爱脑测试 💘</title>
+<title>恋爱脑人格测试 💘</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --pink: #ff6b9d; --pink-light: #ffd6e8; --pink-dark: #e0457a;
+  --purple: #c77dff; --purple-light: #e8d5ff;
+  --bg: #fff5f9; --text: #3d1f2f; --text-light: #8c6478;
+  --card: #ffffff; --shadow: 0 8px 32px rgba(255,107,157,0.15);
+}
+body {
+  font-family: -apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  background: var(--bg); min-height: 100vh;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 24px 16px;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255,107,157,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(199,125,255,0.08) 0%, transparent 50%);
+}
+.container { width: 100%; max-width: 520px; }
 
-  :root {
-    --pink: #ff6b9d;
-    --pink-light: #ffd6e8;
-    --pink-dark: #e0457a;
-    --purple: #c77dff;
-    --purple-light: #e8d5ff;
-    --bg: #fff5f9;
-    --text: #3d1f2f;
-    --text-light: #8c6478;
-    --card: #ffffff;
-    --shadow: 0 8px 32px rgba(255, 107, 157, 0.15);
-  }
+/* COVER */
+#cover {
+  background: var(--card); border-radius: 28px;
+  padding: 48px 32px 40px; box-shadow: var(--shadow);
+  text-align: center; animation: fadeInUp 0.6s ease;
+}
+.cover-emoji { font-size: 76px; display: block; margin-bottom: 18px; animation: pulse 2.2s infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.07)} }
+.cover-title { font-size: 28px; font-weight: 900; color: var(--pink); margin-bottom: 6px; letter-spacing: 2px; }
+.cover-sub { font-size: 14px; color: var(--text-light); margin-bottom: 24px; line-height: 1.7; }
+.cover-tags { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.tag { background: var(--pink-light); color: var(--pink-dark); font-size: 12px; padding: 5px 14px; border-radius: 20px; font-weight: 600; }
+.cover-dims {
+  background: linear-gradient(135deg,#fff5f9,#f8f0ff);
+  border-radius: 16px; padding: 16px 20px; margin-bottom: 28px;
+  border: 1px solid var(--pink-light); text-align: left;
+}
+.cover-dims-title { font-size: 12px; font-weight: 800; color: var(--text-light); margin-bottom: 10px; letter-spacing: 1px; }
+.dim-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; color: var(--text); }
+.dim-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.start-btn {
+  width: 100%; padding: 17px;
+  background: linear-gradient(135deg,var(--pink),var(--purple));
+  color: white; font-size: 17px; font-weight: 700; border: none;
+  border-radius: 16px; cursor: pointer; letter-spacing: 2px;
+  box-shadow: 0 6px 20px rgba(255,107,157,0.4); transition: all 0.2s;
+}
+.start-btn:active { transform: scale(0.97); }
+.cover-note { margin-top: 14px; font-size: 12px; color: #bba0b0; }
 
-  body {
-    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: var(--bg);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-image:
-      radial-gradient(circle at 20% 20%, rgba(255,107,157,0.08) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(199,125,255,0.08) 0%, transparent 50%);
-  }
+/* QUIZ */
+#quiz { display: none; }
+.quiz-header { margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+.q-counter { font-size: 13px; color: var(--text-light); font-weight: 600; white-space: nowrap; }
+.q-counter strong { color: var(--pink); font-size: 15px; }
+.progress-bar-bg { height: 8px; background: var(--pink-light); border-radius: 99px; flex: 1; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg,var(--pink),var(--purple)); border-radius: 99px; transition: width 0.4s ease; width: 0%; }
+.dim-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
 
-  .container {
-    width: 100%;
-    max-width: 480px;
-    position: relative;
-  }
+.question-card {
+  background: var(--card); border-radius: 24px;
+  padding: 28px 24px 24px; box-shadow: var(--shadow);
+  min-height: 340px; display: flex; flex-direction: column;
+}
+.q-num-badge {
+  display: inline-block;
+  background: linear-gradient(135deg,var(--pink),var(--purple));
+  color: white; font-size: 11px; font-weight: 700;
+  padding: 3px 12px; border-radius: 99px; margin-bottom: 14px; letter-spacing: 1px;
+}
+.q-emoji { font-size: 32px; margin-bottom: 10px; }
+.q-text { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.65; margin-bottom: 22px; flex: 1; }
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option-btn {
+  width: 100%; padding: 13px 16px;
+  background: #fef0f6; border: 2px solid transparent;
+  border-radius: 13px; font-size: 13px; font-weight: 500;
+  color: var(--text); cursor: pointer; text-align: left;
+  transition: all 0.2s; line-height: 1.5;
+}
+.option-btn:hover { border-color: var(--pink); transform: translateX(3px); }
+.option-btn.selected {
+  background: linear-gradient(135deg,var(--pink),var(--purple));
+  color: white; border-color: transparent; transform: translateX(3px);
+}
+.option-inner { display: flex; align-items: flex-start; gap: 10px; }
+.option-label {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; min-width: 20px;
+  background: white; border-radius: 50%;
+  font-size: 10px; font-weight: 800; color: var(--pink);
+}
+.option-btn.selected .option-label { background: rgba(255,255,255,0.3); color: white; }
 
-  /* ===== 封面页 ===== */
-  #cover {
-    background: var(--card);
-    border-radius: 28px;
-    padding: 50px 36px 44px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    animation: fadeInUp 0.6s ease;
-  }
+.nav-row { display: flex; gap: 10px; margin-top: 16px; }
+.prev-btn {
+  padding: 12px 20px; background: white;
+  border: 2px solid var(--pink-light); border-radius: 12px;
+  font-size: 13px; color: var(--text-light); cursor: pointer; font-weight: 600; transition: all 0.2s;
+}
+.prev-btn:hover { border-color: var(--pink); color: var(--pink); }
+.next-btn {
+  flex: 1; padding: 13px;
+  background: linear-gradient(135deg,var(--pink),var(--purple));
+  color: white; font-size: 14px; font-weight: 700; border: none;
+  border-radius: 12px; cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(255,107,157,0.35); letter-spacing: 1px;
+}
+.next-btn:disabled { background: #e8dde4; box-shadow: none; color: #bba0b0; cursor: not-allowed; }
+.next-btn:not(:disabled):active { transform: scale(0.97); }
 
-  .cover-emoji {
-    font-size: 80px;
-    display: block;
-    margin-bottom: 20px;
-    animation: pulse 2s infinite;
-  }
+/* RESULT */
+#result { display: none; }
+.result-card {
+  background: var(--card); border-radius: 28px;
+  padding: 40px 28px 36px; box-shadow: var(--shadow);
+  text-align: center; animation: fadeInUp 0.6s ease;
+}
+.result-emoji { font-size: 68px; display: block; margin-bottom: 14px; animation: bounceIn 0.7s ease; }
+@keyframes bounceIn {
+  0%{transform:scale(0.3);opacity:0} 50%{transform:scale(1.1)}
+  70%{transform:scale(0.95)} 100%{transform:scale(1);opacity:1}
+}
+.result-type-label { font-size: 12px; font-weight: 700; color: var(--pink); letter-spacing: 3px; margin-bottom: 8px; }
+.result-title { font-size: 26px; font-weight: 900; color: var(--text); margin-bottom: 6px; }
+.result-subtitle { font-size: 14px; color: var(--text-light); font-weight: 600; margin-bottom: 22px; }
 
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-  }
+.dim-bars { margin-bottom: 22px; display: flex; flex-direction: column; gap: 10px; }
+.dim-bar-row { display: flex; align-items: center; gap: 10px; }
+.dim-bar-name { font-size: 12px; font-weight: 700; color: var(--text-light); width: 52px; text-align: right; flex-shrink: 0; }
+.dim-bar-bg { flex: 1; height: 10px; background: var(--pink-light); border-radius: 99px; overflow: hidden; }
+.dim-bar-fill { height: 100%; border-radius: 99px; transition: width 1.2s cubic-bezier(0.25,1,0.5,1); width: 0%; }
+.dim-bar-val { font-size: 12px; font-weight: 700; color: var(--text-light); width: 30px; text-align: left; flex-shrink: 0; }
 
-  .cover-title {
-    font-size: 30px;
-    font-weight: 800;
-    color: var(--pink);
-    margin-bottom: 8px;
-    letter-spacing: 2px;
-  }
+.result-desc {
+  background: linear-gradient(135deg,#fff5f9,#f8f0ff);
+  border-radius: 16px; padding: 18px;
+  font-size: 14px; color: var(--text); line-height: 1.8;
+  text-align: left; margin-bottom: 18px; border: 1px solid var(--pink-light);
+}
+.result-traits { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; margin-bottom: 22px; }
+.trait-tag { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+.trait-pos { background: var(--pink-light); color: var(--pink-dark); }
+.trait-neg { background: var(--purple-light); color: #7b4fa8; }
 
-  .cover-sub {
-    font-size: 15px;
-    color: var(--text-light);
-    margin-bottom: 28px;
-    line-height: 1.6;
-  }
+.compat-section { margin-bottom: 20px; }
+.compat-title { font-size: 13px; font-weight: 800; color: var(--text); margin-bottom: 10px; text-align: left; }
+.compat-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.compat-tag { padding: 6px 14px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+.compat-good { background: #e8f8f0; color: #2d8a5e; }
+.compat-bad { background: #ffeaea; color: #c0392b; }
 
-  .cover-tags {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 36px;
-  }
+.result-divider { height: 1px; background: var(--pink-light); margin: 20px 0; }
+.result-advice-title { font-size: 13px; font-weight: 800; color: var(--text); margin-bottom: 10px; text-align: left; }
+.result-advice { font-size: 13px; color: var(--text-light); line-height: 1.8; text-align: left; }
 
-  .tag {
-    background: var(--pink-light);
-    color: var(--pink-dark);
-    font-size: 12px;
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-weight: 600;
-  }
+.restart-btn {
+  width: 100%; padding: 15px;
+  background: linear-gradient(135deg,var(--pink),var(--purple));
+  color: white; font-size: 15px; font-weight: 700; border: none;
+  border-radius: 16px; cursor: pointer; letter-spacing: 2px;
+  box-shadow: 0 6px 20px rgba(255,107,157,0.4); margin-top: 22px; transition: all 0.2s;
+}
+.restart-btn:active { transform: scale(0.97); }
 
-  .start-btn {
-    width: 100%;
-    padding: 18px;
-    background: linear-gradient(135deg, var(--pink), var(--purple));
-    color: white;
-    font-size: 18px;
-    font-weight: 700;
-    border: none;
-    border-radius: 16px;
-    cursor: pointer;
-    letter-spacing: 2px;
-    transition: all 0.3s;
-    box-shadow: 0 6px 20px rgba(255,107,157,0.4);
-  }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes slideInRight { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
+@keyframes slideInLeft { from{opacity:0;transform:translateX(-30px)} to{opacity:1;transform:translateX(0)} }
 
-  .start-btn:active { transform: scale(0.97); }
-
-  .cover-note {
-    margin-top: 16px;
-    font-size: 12px;
-    color: #bba0b0;
-  }
-
-  /* ===== 题目页 ===== */
-  #quiz { display: none; }
-
-  .quiz-header {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .q-counter {
-    font-size: 13px;
-    color: var(--text-light);
-    font-weight: 600;
-  }
-
-  .q-counter strong { color: var(--pink); font-size: 16px; font-weight: 800; }
-
-  .progress-bar-bg {
-    height: 8px;
-    background: var(--pink-light);
-    border-radius: 99px;
-    flex: 1;
-    margin: 0 14px;
-    overflow: hidden;
-  }
-
-  .progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--pink), var(--purple));
-    border-radius: 99px;
-    transition: width 0.4s ease;
-    width: 0%;
-  }
-
-  .question-card {
-    background: var(--card);
-    border-radius: 24px;
-    padding: 32px 28px 28px;
-    box-shadow: var(--shadow);
-    min-height: 360px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .q-num-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--pink), var(--purple));
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 99px;
-    margin-bottom: 16px;
-    letter-spacing: 1px;
-  }
-
-  .q-emoji {
-    font-size: 36px;
-    margin-bottom: 12px;
-  }
-
-  .q-text {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.6;
-    margin-bottom: 28px;
-    flex: 1;
-  }
-
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .option-btn {
-    width: 100%;
-    padding: 15px 18px;
-    background: #fef0f6;
-    border: 2px solid transparent;
-    border-radius: 14px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.2s;
-    line-height: 1.5;
-  }
-
-  .option-btn:hover {
-    border-color: var(--pink);
-    transform: translateX(4px);
-  }
-
-  .option-btn.selected {
-    background: linear-gradient(135deg, var(--pink), var(--purple));
-    color: white;
-    border-color: transparent;
-    transform: translateX(4px);
-  }
-
-  .option-inner { display: flex; align-items: flex-start; gap: 10px; }
-
-  .option-label {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-    background: white;
-    border-radius: 50%;
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--pink);
-  }
-
-  .option-btn.selected .option-label {
-    background: rgba(255,255,255,0.3);
-    color: white;
-  }
-
-  .nav-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    gap: 12px;
-  }
-
-  .prev-btn {
-    padding: 12px 24px;
-    background: white;
-    border: 2px solid var(--pink-light);
-    border-radius: 12px;
-    font-size: 14px;
-    color: var(--text-light);
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s;
-  }
-
-  .prev-btn:hover { border-color: var(--pink); color: var(--pink); }
-
-  .next-btn {
-    flex: 1;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--pink), var(--purple));
-    color: white;
-    font-size: 15px;
-    font-weight: 700;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 14px rgba(255,107,157,0.35);
-    letter-spacing: 1px;
-  }
-
-  .next-btn:disabled {
-    background: #e8dde4;
-    box-shadow: none;
-    color: #bba0b0;
-    cursor: not-allowed;
-  }
-
-  .next-btn:not(:disabled):active { transform: scale(0.97); }
-
-  /* ===== 结果页 ===== */
-  #result { display: none; }
-
-  .result-card {
-    background: var(--card);
-    border-radius: 28px;
-    padding: 44px 32px 40px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    animation: fadeInUp 0.6s ease;
-  }
-
-  .result-emoji {
-    font-size: 72px;
-    display: block;
-    margin-bottom: 16px;
-    animation: bounceIn 0.7s ease;
-  }
-
-  @keyframes bounceIn {
-    0% { transform: scale(0.3); opacity: 0; }
-    50% { transform: scale(1.1); }
-    70% { transform: scale(0.95); }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  .result-level {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--pink);
-    letter-spacing: 3px;
-    margin-bottom: 10px;
-  }
-
-  .result-title {
-    font-size: 28px;
-    font-weight: 900;
-    color: var(--text);
-    margin-bottom: 8px;
-    letter-spacing: 1px;
-  }
-
-  .result-subtitle {
-    font-size: 15px;
-    color: var(--pink);
-    font-weight: 600;
-    margin-bottom: 24px;
-  }
-
-  .result-bar-area { margin-bottom: 24px; }
-
-  .result-bar-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: var(--text-light);
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  .result-bar-bg {
-    height: 12px;
-    background: var(--pink-light);
-    border-radius: 99px;
-    overflow: hidden;
-  }
-
-  .result-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--pink), var(--purple));
-    border-radius: 99px;
-    transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-    width: 0%;
-  }
-
-  .result-desc {
-    background: linear-gradient(135deg, #fff5f9, #f8f0ff);
-    border-radius: 16px;
-    padding: 20px;
-    font-size: 14px;
-    color: var(--text);
-    line-height: 1.8;
-    text-align: left;
-    margin-bottom: 20px;
-    border: 1px solid var(--pink-light);
-  }
-
-  .result-traits {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin-bottom: 28px;
-  }
-
-  .trait-tag {
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-  }
-
-  .trait-pos { background: var(--pink-light); color: var(--pink-dark); }
-  .trait-neg { background: var(--purple-light); color: #7b4fa8; }
-
-  .result-divider {
-    height: 1px;
-    background: var(--pink-light);
-    margin: 24px 0;
-  }
-
-  .result-advice-title {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--text);
-    margin-bottom: 12px;
-    text-align: left;
-  }
-
-  .result-advice {
-    font-size: 13px;
-    color: var(--text-light);
-    line-height: 1.8;
-    text-align: left;
-  }
-
-  .restart-btn {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--pink), var(--purple));
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    border: none;
-    border-radius: 16px;
-    cursor: pointer;
-    letter-spacing: 2px;
-    transition: all 0.3s;
-    box-shadow: 0 6px 20px rgba(255,107,157,0.4);
-    margin-top: 24px;
-  }
-
-  .restart-btn:active { transform: scale(0.97); }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes slideInRight {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
-  @keyframes slideInLeft {
-    from { opacity: 0; transform: translateX(-30px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
-  .confetti-wrap {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 999;
-  }
-
-  .confetti-piece {
-    position: absolute;
-    top: -20px;
-    border-radius: 2px;
-    animation: confettiFall linear forwards;
-  }
-
-  @keyframes confettiFall {
-    to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-  }
+.confetti-wrap { position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:999; }
+.confetti-piece { position:absolute;top:-20px;border-radius:2px;animation:confettiFall linear forwards; }
+@keyframes confettiFall { to{transform:translateY(110vh) rotate(720deg);opacity:0} }
 </style>
 </head>
 <body>
-
 <div class="container">
-  <!-- 封面 -->
   <div id="cover">
     <span class="cover-emoji">💘</span>
-    <div class="cover-title">恋爱脑测试</div>
-    <div class="cover-sub">你到底有多恋爱脑？<br>10道题，测出你的恋爱人格</div>
+    <div class="cover-title">恋爱脑人格测试</div>
+    <div class="cover-sub">40道情景题，从3个维度精准测出你的恋爱人格<br>看看你是哪一种恋爱脑？</div>
     <div class="cover-tags">
-      <span class="tag">💬 10道题</span>
-      <span class="tag">⏱ 约2分钟</span>
-      <span class="tag">🔬 5种结果</span>
+      <span class="tag">💬 40道题</span>
+      <span class="tag">⏱ 约5分钟</span>
+      <span class="tag">🔬 6种人格</span>
+      <span class="tag">📊 3维度分析</span>
+    </div>
+    <div class="cover-dims">
+      <div class="cover-dims-title">📐 测量维度</div>
+      <div class="dim-row"><span class="dim-dot" style="background:#ff6b9d"></span><strong>依赖度</strong>：你在感情中有多需要对方的陪伴与回应</div>
+      <div class="dim-row"><span class="dim-dot" style="background:#c77dff"></span><strong>投入度</strong>：你愿意为感情付出多少精力与自我</div>
+      <div class="dim-row"><span class="dim-dot" style="background:#54a0ff"></span><strong>控制欲</strong>：你对感情走向的掌控与不确定性的容忍度</div>
     </div>
     <button class="start-btn" id="start-btn">开始测试 →</button>
-    <div class="cover-note">测试结果仅供娱乐，请勿对号入座 🌸</div>
+    <div class="cover-note">测试结果仅供娱乐参考，请勿对号入座 🌸</div>
   </div>
 
-  <!-- 题目区 -->
   <div id="quiz">
     <div class="quiz-header">
-      <span class="q-counter"><strong id="cur-num">1</strong>/10</span>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="progress-fill"></div>
-      </div>
-      <span style="font-size:18px">💌</span>
+      <span class="q-counter"><strong id="cur-num">1</strong>/40</span>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+      <span class="dim-badge" id="dim-badge" style="background:#ffd6e8;color:#e0457a">依赖度</span>
     </div>
     <div class="question-card" id="question-card"></div>
     <div class="nav-row">
@@ -499,174 +212,336 @@
     </div>
   </div>
 
-  <!-- 结果页 -->
   <div id="result">
     <div class="result-card" id="result-card"></div>
   </div>
 </div>
-
 <div class="confetti-wrap" id="confetti-wrap"></div>
-
 <script>
+// 40道题，3个维度：D=依赖度 I=投入度 C=控制欲
+// 每题4个选项，分值 0-3，对应该维度的得分
 var questions = [
-  {
-    emoji: "😳",
-    text: "刚认识一个心动的人，你第一反应是什么？",
-    options: [
-      { text: "淡定，继续做自己的事，缘分到了自然会近", score: 0 },
-      { text: "会稍微关注一下，但不会主动", score: 1 },
-      { text: "忍不住去翻他的朋友圈和微博", score: 2 },
-      { text: "已经开始幻想我们在一起的样子了", score: 3 }
-    ]
-  },
-  {
-    emoji: "📱",
-    text: "发出去的消息对方迟迟没回，你通常会……",
-    options: [
-      { text: "没感觉，可能他忙，等着就行", score: 0 },
-      { text: "看了看，心里有一点点在意", score: 1 },
-      { text: "反复看有没有已读，开始猜测原因", score: 2 },
-      { text: "焦虑到发第二条，或者一直刷新对话框", score: 3 }
-    ]
-  },
-  {
-    emoji: "👫",
-    text: "好朋友约你吃饭，但这时候你喜欢的人突然说想见你，你会……",
-    options: [
-      { text: "爱人没约好，朋友的约不能爽", score: 0 },
-      { text: "跟朋友商量能不能改时间", score: 1 },
-      { text: "找个借口跟朋友说临时有事，去见喜欢的人", score: 2 },
-      { text: "直接赴约，朋友应该能理解的", score: 3 }
-    ]
-  },
-  {
-    emoji: "💭",
-    text: "你对爱情在生活中的地位是……",
-    options: [
-      { text: "锦上添花，有更好，没有也行", score: 0 },
-      { text: "重要，但没有工作/学业/朋友重要", score: 1 },
-      { text: "跟其他事情同等重要", score: 2 },
-      { text: "是生活的核心和动力，失去爱情感觉生活没意义", score: 3 }
-    ]
-  },
-  {
-    emoji: "😤",
-    text: "朋友直接告诉你他不适合你，别喜欢他了。你的反应是……",
-    options: [
-      { text: "认真听完，理性分析朋友说的对不对", score: 0 },
-      { text: "有点不舒服，但会思考朋友的话", score: 1 },
-      { text: "内心反驳，嘴上说我知道了", score: 2 },
-      { text: "直接翻脸：你不了解他，别说我们的事", score: 3 }
-    ]
-  },
-  {
-    emoji: "🌙",
-    text: "理想中的周末，你更倾向于……",
-    options: [
-      { text: "自己安排，读书、出门、做喜欢的事", score: 0 },
-      { text: "跟闺蜜/朋友出去玩", score: 1 },
-      { text: "跟对象约会，但也会留点时间给自己", score: 2 },
-      { text: "最好24小时都跟对象腻在一起", score: 3 }
-    ]
-  },
-  {
-    emoji: "🪞",
-    text: "你会因为喜欢一个人而改变自己吗？",
-    options: [
-      { text: "不会，我是我，他是他", score: 0 },
-      { text: "会做一些无关紧要的小改变", score: 1 },
-      { text: "会为他改变一些习惯或爱好", score: 2 },
-      { text: "愿意为他彻底改变，什么都行", score: 3 }
-    ]
-  },
-  {
-    emoji: "💔",
-    text: "上一段感情结束之后，你……",
-    options: [
-      { text: "难过了一段时间，很快调整好投入新生活", score: 0 },
-      { text: "需要一两个月缓一缓，然后复原", score: 1 },
-      { text: "很长一段时间都走不出来，状态很差", score: 2 },
-      { text: "觉得整个世界都崩了，完全无法正常生活", score: 3 }
-    ]
-  },
-  {
-    emoji: "🌹",
-    text: "对方突然冷淡、减少联系，你会怎么做？",
-    options: [
-      { text: "观察几天，如果真冷了就放手", score: 0 },
-      { text: "主动问一句你还好吗，等他回应", score: 1 },
-      { text: "不断找话题、制造机会，试图挽回", score: 2 },
-      { text: "连续发消息、打电话，甚至去找他", score: 3 }
-    ]
-  },
-  {
-    emoji: "📸",
-    text: "你的朋友圈和社交媒体……",
-    options: [
-      { text: "基本上跟感情没什么关系，发自己的生活", score: 0 },
-      { text: "偶尔会发跟对象有关的内容", score: 1 },
-      { text: "经常晒恩爱，秀一秀很正常", score: 2 },
-      { text: "几乎全是跟他有关的，生活=他", score: 3 }
-    ]
-  }
+  // ===== 依赖度 D（14题） =====
+  { dim:"D", emoji:"📱", text:"你和喜欢的人在聊天，TA突然说要去忙，1小时没回消息。你会……",
+    options:[
+      {t:"完全不在意，自己该干嘛干嘛",s:0},
+      {t:"偶尔瞄一眼手机，但不会主动打扰",s:1},
+      {t:"心里有点空，会不停看手机有没有回复",s:2},
+      {t:"开始焦虑：是不是我说错了什么？",s:3}]},
+  { dim:"D", emoji:"🌙", text:"周末晚上，TA说要陪家人不能见你，你会……",
+    options:[
+      {t:"挺好的，我也正好安排自己的事",s:0},
+      {t:"有点遗憾，但理解",s:1},
+      {t:"感觉冷清，希望TA能尽快回来",s:2},
+      {t:"觉得失落甚至有点难过，会反复想念TA",s:3}]},
+  { dim:"D", emoji:"✈️", text:"TA要出差两周，你的感受是……",
+    options:[
+      {t:"正好我有时间做自己的事，可以充电",s:0},
+      {t:"有点想，但生活节奏不会被打乱",s:1},
+      {t:"每天都想TA，需要频繁视频通话",s:2},
+      {t:"感觉空落落的，影响到了工作和心情",s:3}]},
+  { dim:"D", emoji:"💬", text:"和TA吵架冷战，你通常……",
+    options:[
+      {t:"该睡睡，该吃吃，等情绪过去再聊",s:0},
+      {t:"会反思一下，过几小时主动沟通",s:1},
+      {t:"心里很不安，吃不下睡不好，急着和好",s:2},
+      {t:"立刻无法忍受，会主动低头求和",s:3}]},
+  { dim:"D", emoji:"🎉", text:"闺蜜/兄弟约你出去玩，你刚谈恋爱不久，你会……",
+    options:[
+      {t:"当然去啊，朋友的约不能爽",s:0},
+      {t:"去，但会跟对象提一下",s:1},
+      {t:"先问对象有没有安排，再决定",s:2},
+      {t:"如果对象不去，我可能也不太想去了",s:3}]},
+  { dim:"D", emoji:"🛌", text:"理想中的同居生活是……",
+    options:[
+      {t:"各有各的空间，独处时间很重要",s:0},
+      {t:"大部分时间一起，偶尔分开做自己的事",s:1},
+      {t:"几乎所有空闲时间都黏在一起",s:2},
+      {t:"恨不得24小时都不分开",s:3}]},
+  { dim:"D", emoji:"🤝", text:"做重要决定时（比如换工作），你会……",
+    options:[
+      {t:"自己想清楚再告诉TA",s:0},
+      {t:"和TA商量，但主要还是自己拿主意",s:1},
+      {t:"很看重TA的意见，几乎会按TA说的来",s:2},
+      {t:"如果TA反对，我可能就不做了",s:3}]},
+  { dim:"D", emoji:"🍽️", text:"你独自吃饭、看电影、旅行的感觉是……",
+    options:[
+      {t:"很享受，独处是一种休息",s:0},
+      {t:"还行，偶尔为之挺好",s:1},
+      {t:"有点孤单，会想要个伴",s:2},
+      {t:"很难受，无法享受一个人的状态",s:3}]},
+  { dim:"D", emoji:"💔", text:"上一段感情结束后多久你能完全走出来？",
+    options:[
+      {t:"几周就调整好了，重新投入新生活",s:0},
+      {t:"1-3个月，会难过但能复原",s:1},
+      {t:"半年甚至更久，状态长时间低迷",s:2},
+      {t:"很久都走不出来，甚至会影响下一段",s:3}]},
+  { dim:"D", emoji:"📅", text:"恋爱中，TA和朋友聚会没叫你，你会……",
+    options:[
+      {t:"没事，TA本来就有自己的圈子",s:0},
+      {t:"觉得正常，自己也安排点事",s:1},
+      {t:"有点失落，希望TA能多带上我",s:2},
+      {t:"会不开心，觉得TA不重视我",s:3}]},
+  { dim:"D", emoji:"🌅", text:"如果TA说「我们都需要一些自己的时间」，你会……",
+    options:[
+      {t:"完全赞同，独立空间很重要",s:0},
+      {t:"理解，但希望频率不要太高",s:1},
+      {t:"心里有点慌，担心是不是出问题了",s:2},
+      {t:"会很难过，怀疑TA是不是不爱了",s:3}]},
+  { dim:"D", emoji:"📞", text:"一天没收到TA的消息，你的反应是……",
+    options:[
+      {t:"完全没注意到，自己事情很多",s:0},
+      {t:"想起来会随口问一句「在干嘛」",s:1},
+      {t:"心里有些不踏实，会主动找话题",s:2},
+      {t:"会非常焦虑，反复猜测原因",s:3}]},
+  { dim:"D", emoji:"🪞", text:"没有恋爱的时候，你的生活状态是……",
+    options:[
+      {t:"很充实，根本不觉得需要一个人",s:0},
+      {t:"挺好的，但偶尔也想有人陪",s:1},
+      {t:"会有点空虚，希望尽快遇到喜欢的人",s:2},
+      {t:"感觉生活缺了一大块，必须有恋爱",s:3}]},
+  { dim:"D", emoji:"🌧️", text:"心情不好的时候，你最想……",
+    options:[
+      {t:"自己消化，听音乐看剧或者睡觉",s:0},
+      {t:"找朋友聊聊或者出去走走",s:1},
+      {t:"第一个想找对象倾诉",s:2},
+      {t:"必须有对象陪着才能缓过来",s:3}]},
+
+  // ===== 投入度 I（13题） =====
+  { dim:"I", emoji:"💌", text:"刚开始喜欢一个人时，你会……",
+    options:[
+      {t:"保持原有节奏，慢慢观察",s:0},
+      {t:"稍微主动一些，但不会变化太大",s:1},
+      {t:"会调整生活节奏给对方腾出空间",s:2},
+      {t:"几乎每天都在想TA，整个状态都改变了",s:3}]},
+  { dim:"I", emoji:"🎁", text:"对方过生日，你的准备是……",
+    options:[
+      {t:"送个实用的礼物，不需要太花哨",s:0},
+      {t:"用心挑选一份合适的礼物",s:1},
+      {t:"提前一两周准备，包括惊喜环节",s:2},
+      {t:"提前一个月策划，恨不得搞成大型仪式",s:3}]},
+  { dim:"I", emoji:"⏰", text:"恋爱中你愿意为TA花的时间占你总空闲时间的……",
+    options:[
+      {t:"不到20%，我有很多自己的事",s:0},
+      {t:"30-50%，平衡分配",s:1},
+      {t:"60-80%，TA是我生活重心",s:2},
+      {t:"几乎全部，除了工作我都想给TA",s:3}]},
+  { dim:"I", emoji:"💼", text:"为了和对象多相处，你会推掉重要的工作/学习吗？",
+    options:[
+      {t:"不会，工作学习是底线",s:0},
+      {t:"偶尔会调整，但不影响大事",s:1},
+      {t:"经常会调整以TA为优先",s:2},
+      {t:"会，TA比这些都重要",s:3}]},
+  { dim:"I", emoji:"🪐", text:"你会因为爱一个人改变什么？",
+    options:[
+      {t:"基本不会改变自己",s:0},
+      {t:"会改变一些小习惯",s:1},
+      {t:"会改变穿衣风格、爱好、社交圈",s:2},
+      {t:"愿意彻底改变，包括三观和生活方式",s:3}]},
+  { dim:"I", emoji:"📸", text:"你的社交媒体上跟对象有关的内容占比……",
+    options:[
+      {t:"几乎没有，我喜欢保持低调",s:0},
+      {t:"偶尔发一两条",s:1},
+      {t:"经常晒，朋友都知道我谈恋爱了",s:2},
+      {t:"几乎全是跟TA有关的，秀恩爱日常",s:3}]},
+  { dim:"I", emoji:"😢", text:"对方哭了或难过了，你的反应是……",
+    options:[
+      {t:"安慰几句，但不会过度卷入",s:0},
+      {t:"陪伴和倾听，帮TA分析问题",s:1},
+      {t:"会感同身受，心情也跟着低落",s:2},
+      {t:"比TA还难受，恨不得替TA承担一切",s:3}]},
+  { dim:"I", emoji:"🌹", text:"恋爱关系里你最看重什么？",
+    options:[
+      {t:"互相独立，各自精彩",s:0},
+      {t:"舒适、轻松、不互相消耗",s:1},
+      {t:"深度联结，灵魂共鸣",s:2},
+      {t:"全身心投入，灵魂和身体都属于彼此",s:3}]},
+  { dim:"I", emoji:"💸", text:"你愿意为对方花钱的程度是……",
+    options:[
+      {t:"AA为主，礼物适度",s:0},
+      {t:"愿意请客和送礼物，但有预算",s:1},
+      {t:"经常付出，不太计较",s:2},
+      {t:"愿意倾尽所有，包括借钱也要满足TA",s:3}]},
+  { dim:"I", emoji:"🛠️", text:"对方有困难（比如生病、失业），你会……",
+    options:[
+      {t:"提供必要的帮助，但不影响自己生活",s:0},
+      {t:"陪伴和支持，分担一部分",s:1},
+      {t:"全力以赴帮TA渡过，可以暂时牺牲自己",s:2},
+      {t:"完全把自己的生活停下来照顾TA",s:3}]},
+  { dim:"I", emoji:"🌀", text:"当你深陷一段感情时，朋友/家人和你的联系……",
+    options:[
+      {t:"完全不受影响，照常维持",s:0},
+      {t:"稍微减少，但重要的人不会丢",s:1},
+      {t:"明显减少，朋友会抱怨我消失了",s:2},
+      {t:"几乎全断了，世界只剩对象",s:3}]},
+  { dim:"I", emoji:"🎭", text:"对方的兴趣爱好和你完全不同时，你会……",
+    options:[
+      {t:"各玩各的，互不干涉",s:0},
+      {t:"偶尔陪TA体验一下",s:1},
+      {t:"主动学习TA喜欢的，争取共同话题",s:2},
+      {t:"放下自己的爱好，全心投入TA的世界",s:3}]},
+  { dim:"I", emoji:"🌌", text:"在你心里，爱情的位置是……",
+    options:[
+      {t:"生活调味剂，没有也能过",s:0},
+      {t:"重要的一部分，但不是全部",s:1},
+      {t:"非常重要，仅次于事业或家人",s:2},
+      {t:"生活的核心和意义，失去会崩溃",s:3}]},
+
+  // ===== 控制欲 C（13题） =====
+  { dim:"C", emoji:"🕵️", text:"对方手机响了，TA没立刻看，你会……",
+    options:[
+      {t:"完全无感，那是TA的隐私",s:0},
+      {t:"偶尔会好奇，但不会主动查看",s:1},
+      {t:"会忍不住想知道是谁",s:2},
+      {t:"会想方设法看一眼是谁发的",s:3}]},
+  { dim:"C", emoji:"📍", text:"对方说要出去玩，你会想知道……",
+    options:[
+      {t:"不需要知道细节，TA高兴就好",s:0},
+      {t:"大概去哪、什么时候回",s:1},
+      {t:"具体路线、和谁一起、几点结束",s:2},
+      {t:"全过程汇报，最好开共享定位",s:3}]},
+  { dim:"C", emoji:"👀", text:"你看到TA的异性同事/朋友给TA点赞，你会……",
+    options:[
+      {t:"完全没注意，不会留意",s:0},
+      {t:"看到也无所谓",s:1},
+      {t:"心里有点不舒服，但不会说出来",s:2},
+      {t:"会追问对方是谁，关系到什么程度",s:3}]},
+  { dim:"C", emoji:"📅", text:"你期待这段感情按你想象的样子发展吗？",
+    options:[
+      {t:"顺其自然，没有预设",s:0},
+      {t:"有一些期待，但能接受变化",s:1},
+      {t:"有明确蓝图，希望按计划走",s:2},
+      {t:"必须按我设想的方式发展，否则很焦虑",s:3}]},
+  { dim:"C", emoji:"🚫", text:"对方做了一件你不喜欢的事（比如某种习惯），你会……",
+    options:[
+      {t:"无所谓，每个人都有自己的方式",s:0},
+      {t:"提一下，但尊重TA的选择",s:1},
+      {t:"反复沟通，希望TA能改",s:2},
+      {t:"必须让TA改，否则关系会有问题",s:3}]},
+  { dim:"C", emoji:"💭", text:"对方有些朋友你不太喜欢/不放心，你会……",
+    options:[
+      {t:"那是TA的圈子，跟我无关",s:0},
+      {t:"提醒一下，但不干涉",s:1},
+      {t:"希望TA减少联系",s:2},
+      {t:"要求TA断绝来往",s:3}]},
+  { dim:"C", emoji:"🔔", text:"对方的消息回复慢一些，你的容忍度是……",
+    options:[
+      {t:"半天一天都没事",s:0},
+      {t:"几小时可以接受",s:1},
+      {t:"超过1小时就会催",s:2},
+      {t:"几分钟不回就开始焦虑",s:3}]},
+  { dim:"C", emoji:"🎯", text:"对方做了一个让你不太满意的决定（比如换工作），你会……",
+    options:[
+      {t:"那是TA的人生，全力支持",s:0},
+      {t:"表达一下顾虑，最终尊重TA",s:1},
+      {t:"反复劝说，希望TA重新考虑",s:2},
+      {t:"如果TA不听我的，会很失望甚至冷战",s:3}]},
+  { dim:"C", emoji:"📲", text:"你和对象谈「看手机」的边界，你的态度是……",
+    options:[
+      {t:"互不查看，绝对隐私",s:0},
+      {t:"不主动看，但TA愿意给也无所谓",s:1},
+      {t:"希望彼此能随时查看",s:2},
+      {t:"必须能查看，没有隐私才放心",s:3}]},
+  { dim:"C", emoji:"🌊", text:"感情走向不确定（比如TA最近变化），你会……",
+    options:[
+      {t:"顺其自然，是你的留得住",s:0},
+      {t:"主动沟通，了解情况",s:1},
+      {t:"会主动制造机会去抓住TA",s:2},
+      {t:"必须搞清楚原因，并要TA给承诺",s:3}]},
+  { dim:"C", emoji:"😡", text:"对方拒绝了你的一个请求，你的反应是……",
+    options:[
+      {t:"理解，每个人都有边界",s:0},
+      {t:"稍微遗憾，但能接受",s:1},
+      {t:"会再争取一下",s:2},
+      {t:"会失落甚至生气，觉得TA不爱我",s:3}]},
+  { dim:"C", emoji:"🔍", text:"你会主动去了解对方的过去（前任、家庭等）吗？",
+    options:[
+      {t:"不会，过去不重要",s:0},
+      {t:"TA愿意说就听，不刻意打听",s:1},
+      {t:"会主动问，希望多了解",s:2},
+      {t:"必须知道一切细节，否则不安心",s:3}]},
+  { dim:"C", emoji:"⚖️", text:"理想中你和对方在一段关系里的「主导权」是……",
+    options:[
+      {t:"完全平等，各自做主",s:0},
+      {t:"基本平等，偶有偏向",s:1},
+      {t:"我希望主导多一点",s:2},
+      {t:"我必须是主导，TA听我的才有安全感",s:3}]}
 ];
 
-var results = [
-  {
-    emoji: "🧊",
-    level: "冷静理性型",
-    title: "钢铁直男 / 女",
-    subtitle: "恋爱脑指数：0%",
-    percent: 5,
-    desc: "你的情感世界井井有条，感情对你来说是生活的一部分，而不是全部。你不会因为一段感情而打乱自己的节奏，独立而清醒，令人羡慕。",
-    traits: ["独立", "理性", "自我", "清醒", "有时过于冷漠", "不善表达"],
-    advice: "你很独立，但也要注意适当打开心扉。感情需要一点点柔软，偶尔展示脆弱并不代表失去自我哦 🌿"
+// 6种人格类型（依赖D × 投入I × 控制C，每维度高H低L）
+// 用编码 XYZ 表示，X=D, Y=I, Z=C
+var types = {
+  "LLL": {
+    code: "LLL", emoji: "🧊",
+    title: "冷静观察者",
+    subtitle: "ICE TYPE · 独立理性派",
+    desc: "你在感情中保持高度的清醒与独立，把恋爱视为生活的一部分而非全部。你不会轻易被情绪牵着走，能清楚地区分「喜欢」和「需要」。这让你在感情中很少受伤，也很少做出冲动决定。但有时这份冷静会被对方解读为「不够爱」，你需要适当地让对方感受到温度。",
+    traits: ["独立自主","理性克制","情绪稳定","界限清晰","有时疏离","表达克制"],
+    advice: "你的稳定是优势，不必为了别人改变自己。但偶尔多一点主动表达爱意，会让对方更安心。",
+    good: ["热烈占有欲","甜蜜依赖型"],
+    bad: ["矛盾纠结型"]
   },
-  {
-    emoji: "🌿",
-    level: "小有感性型",
-    title: "清醒的浪漫主义者",
-    subtitle: "恋爱脑指数：25%",
-    percent: 28,
-    desc: "你对感情有期待，但不会迷失其中。你懂得在爱情和生活之间保持平衡，是那种会认真爱、也会好好生活的人。",
-    traits: ["平衡感强", "有边界感", "温柔", "理性", "偶尔纠结", "感情细腻"],
-    advice: "你已经做得很好啦！保持这种平衡感，既能投入感情，也能守护自己的生活和圈子。这是很难得的成熟 💚"
+  "LHL": {
+    code: "LHL", emoji: "🌿",
+    title: "清醒浪漫派",
+    subtitle: "BALANCED TYPE · 投入但独立",
+    desc: "你是教科书级的健康恋爱模板：投入真心但保留自我，在爱与生活之间找到了平衡。你愿意为对方付出，但不会因此弄丢自己。你的爱有边界、有节奏，让另一半感到温暖又不窒息。这是一种很难得的成熟。",
+    traits: ["平衡感强","懂得给予","界限清晰","成熟稳重","容易被忽视情绪","偶尔自我消化"],
+    advice: "你已经做得很好了。记得在投入的同时，也允许自己向对方求助——亲密关系是双向的。",
+    good: ["理想主义者","甜蜜依赖型"],
+    bad: ["热烈占有欲"]
   },
-  {
-    emoji: "🌸",
-    level: "中度恋爱脑",
-    title: "甜蜜的小麻烦精",
-    subtitle: "恋爱脑指数：55%",
-    percent: 58,
-    desc: "你对感情投入充分，容易心动，也容易在意对方的一举一动。你的爱很真实，但有时候会因为对方的情绪而影响到自己的状态。",
-    traits: ["感情丰富", "会撒娇", "重视对方", "粘人", "容易吃醋", "情绪化"],
-    advice: "恋爱脑不是坏事，热烈地爱很美好。但记得时不时回来照顾一下自己——你的朋友圈、你的爱好、你的梦想，都不要丢掉 🌸"
+  "HHL": {
+    code: "HHL", emoji: "🌸",
+    title: "甜蜜依赖型",
+    subtitle: "SWEET TYPE · 黏人不强势",
+    desc: "你像一只爱撒娇的小动物，恋爱中需要大量的陪伴和回应，但不会强求对方按你的想法走。你的爱柔软、热情，让对方感到被需要。但要小心，这份依赖会让你把太多情绪寄托在对方身上，一旦TA忙碌或冷淡，你就容易陷入不安。",
+    traits: ["感情丰富","会撒娇","温柔体贴","容易心动","容易粘人","情绪化"],
+    advice: "学会一个人也能开心。当你能独立享受生活时，你的爱会更有底气，而不是焦虑的索取。",
+    good: ["冷静观察者","清醒浪漫派"],
+    bad: ["矛盾纠结型"]
   },
-  {
-    emoji: "💗",
-    level: "重度恋爱脑",
-    title: "爱情至上主义者",
-    subtitle: "恋爱脑指数：78%",
-    percent: 80,
-    desc: "爱情是你生命中最重要的事之一。你愿意为喜欢的人付出很多，对方的情绪会直接影响你的状态。你的爱很深，但有时候也会把自己弄丢。",
-    traits: ["深情", "全力投入", "敏感", "容易依赖", "会忽视自我", "容易受伤"],
-    advice: "你爱得真实又深沉，这是礼物也是负担。试着把10%的注意力放回自己身上——你的人生不该只有一个主角，记得，你也是你自己的主角 💪"
+  "HHH": {
+    code: "HHH", emoji: "🔥",
+    title: "热烈占有欲",
+    subtitle: "INTENSE TYPE · 恋爱脑终极形态",
+    desc: "你是真正的「恋爱脑」——爱得轰轰烈烈、毫无保留。你愿意为TA付出一切，同时也希望对方完全属于你。这种爱浓烈如火，让对方刻骨铭心，但也容易灼伤彼此。当你过于在意TA的一举一动时，控制欲就会悄悄出现，把爱变成压力。",
+    traits: ["全情投入","深爱浪漫","占有欲强","情感丰沛","容易吃醋","控制冲动"],
+    advice: "你的爱是礼物，也是负担。请记住：健康的爱是放手让对方做自己，而不是把TA变成你的影子。",
+    good: ["冷静观察者"],
+    bad: ["热烈占有欲","矛盾纠结型"]
   },
-  {
-    emoji: "🔥",
-    level: "恋爱脑晚期",
-    title: "恋爱脑 · 终极形态",
-    subtitle: "恋爱脑指数：100%",
-    percent: 98,
-    desc: "恭喜你！你是教科书级别的恋爱脑。爱情对你而言不只是生活的一部分，简直就是氧气。你爱得彻底、纯粹、不计后果，但有时候也容易因此失去自我。",
-    traits: ["全身心投入", "极度浪漫", "情绪化", "容易失去自我", "忽视朋友", "黏人"],
-    advice: "你的爱热烈得像一场烟火，很美，但也要小心灼伤自己。请记住：一段健康的感情需要两个完整的人，好好爱自己，才能好好爱别人 🔥"
+  "HLH": {
+    code: "HLH", emoji: "🌀",
+    title: "矛盾纠结型",
+    subtitle: "ANXIOUS TYPE · 想要又害怕",
+    desc: "你渴望亲密，但又不敢完全投入。你既需要对方的关注，又不愿意全身心给出自己。控制欲背后其实是不安全感——你害怕付出之后被辜负，所以试图通过掌控来减少风险。这种矛盾让你在感情里时常感到累，也让对方摸不清你的心。",
+    traits: ["敏感","纠结","渴望被爱","防御心强","控制感强","容易内耗"],
+    advice: "你的「控制」其实是恐惧的伪装。试着允许自己脆弱一次，真正的安全感来自被全然接纳，而不是被掌控。",
+    good: ["清醒浪漫派","理想主义者"],
+    bad: ["热烈占有欲"]
+  },
+  "LHH": {
+    code: "LHH", emoji: "💫",
+    title: "理想主义者",
+    subtitle: "IDEALIST TYPE · 灵魂伴侣派",
+    desc: "你独立、投入，且对感情有清晰的标准和期待。你愿意为爱情付出，但希望这段关系按你心中的样子发展——彼此契合、深度共鸣、共同成长。你像一位艺术家在打磨一段关系，但有时太过追求「完美」，会让对方感到压力。",
+    traits: ["独立有主见","深度投入","理想主义","灵魂派","标准较高","容易失望"],
+    advice: "好的关系不是雕塑出来的，是磨合出来的。允许对方有不完美的样子，也允许爱情有意外的方向。",
+    good: ["清醒浪漫派","矛盾纠结型"],
+    bad: ["甜蜜依赖型"]
   }
-];
+};
+
+// 维度颜色
+var dimColors = {
+  "D": {bg:"#ffd6e8", color:"#e0457a", name:"依赖度"},
+  "I": {bg:"#e8d5ff", color:"#7b4fa8", name:"投入度"},
+  "C": {bg:"#d6e8ff", color:"#2c5da8", name:"控制欲"}
+};
 
 var currentQ = 0;
-var answers = [];
-for (var i = 0; i < questions.length; i++) { answers.push(null); }
+var answers = new Array(questions.length).fill(null);
 
 function startQuiz() {
   document.getElementById('cover').style.display = 'none';
@@ -677,18 +552,16 @@ function startQuiz() {
 function renderQuestion(index, dir) {
   var card = document.getElementById('question-card');
   var q = questions[index];
-  var labels = ['A', 'B', 'C', 'D'];
-
+  var labels = ['A','B','C','D'];
   var optionsHtml = '';
   for (var i = 0; i < q.options.length; i++) {
     var sel = answers[index] === i ? ' selected' : '';
     optionsHtml += '<button class="option-btn' + sel + '" data-idx="' + i + '">' +
       '<div class="option-inner">' +
       '<span class="option-label">' + labels[i] + '</span>' +
-      '<span>' + q.options[i].text + '</span>' +
+      '<span>' + q.options[i].t + '</span>' +
       '</div></button>';
   }
-
   card.innerHTML =
     '<div class="q-num-badge">Q ' + (index + 1) + ' / ' + questions.length + '</div>' +
     '<div class="q-emoji">' + q.emoji + '</div>' +
@@ -696,18 +569,24 @@ function renderQuestion(index, dir) {
     '<div class="options" id="options">' + optionsHtml + '</div>';
 
   card.style.animation = 'none';
-  card.offsetHeight; // reflow
+  card.offsetHeight;
   card.style.animation = (dir === 'right') ? 'slideInRight 0.35s ease' : 'slideInLeft 0.35s ease';
 
   document.getElementById('cur-num').textContent = index + 1;
   document.getElementById('progress-fill').style.width = (index / questions.length * 100) + '%';
   document.getElementById('prev-btn').style.visibility = index === 0 ? 'hidden' : 'visible';
 
+  // 维度徽章
+  var dim = dimColors[q.dim];
+  var badge = document.getElementById('dim-badge');
+  badge.textContent = dim.name;
+  badge.style.background = dim.bg;
+  badge.style.color = dim.color;
+
   var nextBtn = document.getElementById('next-btn');
   nextBtn.textContent = index === questions.length - 1 ? '查看结果 ✨' : '下一题 →';
   nextBtn.disabled = answers[index] === null;
 
-  // 用事件委托处理选项点击
   document.getElementById('options').addEventListener('click', function(e) {
     var btn = e.target.closest('.option-btn');
     if (!btn) return;
@@ -738,72 +617,117 @@ function prevQ() {
   }
 }
 
-function showResult() {
-  document.getElementById('progress-fill').style.width = '100%';
-
-  var totalScore = 0;
-  for (var i = 0; i < answers.length; i++) {
+function calcScores() {
+  var sum = {D:0, I:0, C:0};
+  var cnt = {D:0, I:0, C:0};
+  for (var i = 0; i < questions.length; i++) {
     if (answers[i] !== null) {
-      totalScore += questions[i].options[answers[i]].score;
+      var dim = questions[i].dim;
+      sum[dim] += questions[i].options[answers[i]].s;
+      cnt[dim] += 1;
     }
   }
+  return {
+    D: cnt.D ? Math.round(sum.D / (cnt.D * 3) * 100) : 0,
+    I: cnt.I ? Math.round(sum.I / (cnt.I * 3) * 100) : 0,
+    C: cnt.C ? Math.round(sum.C / (cnt.C * 3) * 100) : 0
+  };
+}
 
-  var maxScore = questions.length * 3;
-  var pct = totalScore / maxScore;
+function getType(scores) {
+  // 阈值 50 作为高低分界
+  var d = scores.D >= 50 ? 'H' : 'L';
+  var i = scores.I >= 50 ? 'H' : 'L';
+  var c = scores.C >= 50 ? 'H' : 'L';
+  var key = d + i + c;
+  // 如果完全匹配不到（如 LLH），就匹配最接近的
+  if (types[key]) return types[key];
+  // 兜底映射
+  var fallback = {
+    "LLH":"HLH",  // 低依赖低投入高控制 → 矛盾纠结型
+    "HLL":"HHL"   // 高依赖低投入低控制 → 甜蜜依赖型
+  };
+  return types[fallback[key] || "LHL"];
+}
 
-  var resultIdx;
-  if (pct < 0.12) resultIdx = 0;
-  else if (pct < 0.35) resultIdx = 1;
-  else if (pct < 0.58) resultIdx = 2;
-  else if (pct < 0.78) resultIdx = 3;
-  else resultIdx = 4;
-
-  var r = results[resultIdx];
+function showResult() {
+  document.getElementById('progress-fill').style.width = '100%';
+  var scores = calcScores();
+  var type = getType(scores);
 
   setTimeout(function() {
     document.getElementById('quiz').style.display = 'none';
     document.getElementById('result').style.display = 'block';
 
-    var posTraits = r.traits.slice(0, 3).map(function(t) {
+    var posTraits = type.traits.slice(0, 4).map(function(t) {
       return '<span class="trait-tag trait-pos">' + t + '</span>';
     }).join('');
-    var negTraits = r.traits.slice(3).map(function(t) {
+    var negTraits = type.traits.slice(4).map(function(t) {
       return '<span class="trait-tag trait-neg">' + t + '</span>';
     }).join('');
 
+    var goodHtml = type.good.map(function(t) {
+      return '<span class="compat-tag compat-good">💚 ' + t + '</span>';
+    }).join('');
+    var badHtml = type.bad.map(function(t) {
+      return '<span class="compat-tag compat-bad">⚠️ ' + t + '</span>';
+    }).join('');
+
     document.getElementById('result-card').innerHTML =
-      '<span class="result-emoji">' + r.emoji + '</span>' +
-      '<div class="result-level">' + r.level + '</div>' +
-      '<div class="result-title">' + r.title + '</div>' +
-      '<div class="result-subtitle">' + r.subtitle + '</div>' +
-      '<div class="result-bar-area">' +
-        '<div class="result-bar-label"><span>🧊 理智清醒</span><span>🔥 恋爱脑</span></div>' +
-        '<div class="result-bar-bg"><div class="result-bar-fill" id="res-bar"></div></div>' +
+      '<span class="result-emoji">' + type.emoji + '</span>' +
+      '<div class="result-type-label">类型 · ' + type.code + '</div>' +
+      '<div class="result-title">' + type.title + '</div>' +
+      '<div class="result-subtitle">' + type.subtitle + '</div>' +
+      '<div class="dim-bars">' +
+        dimBar('依赖度', scores.D, '#ff6b9d') +
+        dimBar('投入度', scores.I, '#c77dff') +
+        dimBar('控制欲', scores.C, '#54a0ff') +
       '</div>' +
-      '<div class="result-desc">' + r.desc + '</div>' +
+      '<div class="result-desc">' + type.desc + '</div>' +
       '<div class="result-traits">' + posTraits + negTraits + '</div>' +
       '<div class="result-divider"></div>' +
-      '<div class="result-advice-title">💡 给你的小建议</div>' +
-      '<div class="result-advice">' + r.advice + '</div>' +
+      '<div class="compat-section">' +
+        '<div class="compat-title">💕 兼容人格</div>' +
+        '<div class="compat-row">' + goodHtml + '</div>' +
+      '</div>' +
+      '<div class="compat-section">' +
+        '<div class="compat-title">⚡ 慎重组合</div>' +
+        '<div class="compat-row">' + badHtml + '</div>' +
+      '</div>' +
+      '<div class="result-divider"></div>' +
+      '<div class="result-advice-title">💡 给你的建议</div>' +
+      '<div class="result-advice">' + type.advice + '</div>' +
       '<button class="restart-btn" id="restart-btn">再测一次 🔄</button>';
 
     setTimeout(function() {
-      var bar = document.getElementById('res-bar');
-      if (bar) bar.style.width = r.percent + '%';
+      var fills = document.querySelectorAll('.dim-bar-fill');
+      var vals = [scores.D, scores.I, scores.C];
+      for (var i = 0; i < fills.length; i++) {
+        fills[i].style.width = vals[i] + '%';
+      }
     }, 100);
 
     document.getElementById('restart-btn').addEventListener('click', restart);
 
-    if (resultIdx >= 3) throwConfetti();
+    // 高依赖或高投入触发彩带
+    if (scores.D >= 65 || scores.I >= 65) throwConfetti();
   }, 300);
+}
+
+function dimBar(name, val, color) {
+  return '<div class="dim-bar-row">' +
+    '<span class="dim-bar-name">' + name + '</span>' +
+    '<div class="dim-bar-bg"><div class="dim-bar-fill" style="background:' + color + '"></div></div>' +
+    '<span class="dim-bar-val">' + val + '%</span>' +
+    '</div>';
 }
 
 function restart() {
   currentQ = 0;
-  answers = [];
-  for (var i = 0; i < questions.length; i++) { answers.push(null); }
+  answers = new Array(questions.length).fill(null);
   document.getElementById('result').style.display = 'none';
   document.getElementById('cover').style.display = 'block';
+  document.getElementById('confetti-wrap').innerHTML = '';
 }
 
 function throwConfetti() {
@@ -826,7 +750,6 @@ function throwConfetti() {
   setTimeout(function() { wrap.innerHTML = ''; }, 4000);
 }
 
-// DOM 加载完毕后绑定所有事件
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('start-btn').addEventListener('click', startQuiz);
   document.getElementById('next-btn').addEventListener('click', nextQ);
